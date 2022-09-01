@@ -20,26 +20,11 @@ function getWeatherData() {
             forCurrentWeather(response, mainDiv);
             forHourWeather(response, mainDiv);
             forDaysWeather(response, mainDiv);
-            // forNextDaysWeather(response, mainDiv);
         });
 
 }
 
-// function forNextDaysWeather(response, mainDiv) {
 
-//     let newELem3 = document.createElement('ul')
-//     newELem3.setAttribute('class', 'newELem3')
-//     for (let i = 0; i < 24; i++) {
-//         let foreCastli = document.createElement('li');
-//         foreCastli.setAttribute('class', 'forNextDayHour');
-
-
-//         newELem3.appendChild(foreCastDiv4);
-//         mainDiv.childNodes[7].appendChild(newELem3)
-//     }
-//     mainDiv.appendChild(newELem3);
-
-// }
 function removeItems(mainDiv) {
     if (mainDiv.childNodes[5]) {
         let div5 = mainDiv.childNodes[5]
@@ -175,10 +160,10 @@ function forDaysWeather(response, mainDiv) {
     newELem2.setAttribute('id', 'list');
 
     for (let i = 0; i < response.data.forecast.forecastday.length; i++) {
+        
         let foreCastlist = document.createElement('li');
         foreCastlist.setAttribute('class', 'ForDays');
-
-
+        foreCastlist.setAttribute('onclick', `heightof(${i})`)
 
         let foreCastlistDiv1 = document.createElement('div');
         foreCastlistDiv1.setAttribute('class', 'ForDaysDiv1')
@@ -230,37 +215,53 @@ function forDaysWeather(response, mainDiv) {
 
         foreCastlist.appendChild(mainForCastDiv)
 
-        for (let i = 0; i < 24; i++) {
-            let mainForCastDiv_Hour = document.createElement('div')
-            mainForCastDiv_Hour.setAttribute('class', 'mainForCastDiv_Hour')
-            let timeForCast = document.createElement('p');
-            timeForCast.setAttribute('class', 'pList')
-            let texttimeForCast = document.createTextNode(`${response.data.forecast.forecastday[0].hour[i].time}`);
-            texttimeForCast = texttimeForCast.splitText(11, 0);
-            let tempForCast = document.createElement('p');
-            tempForCast.setAttribute('class', 'pList')
-            let texttempForCast = document.createTextNode(`${response.data.forecast.forecastday[0].hour[i].temp_c} C`);
-            let imgForCast = document.createElement('img');
-            imgForCast.setAttribute('class', 'imgList')
-            imgForCast.setAttribute('src', `https:${response.data.forecast.forecastday[0].hour[i].condition.icon}`);
-            let nameForCast = document.createElement('p');
-            nameForCast.setAttribute('class', 'pList')
-            let textnameForCast = document.createTextNode(`${response.data.forecast.forecastday[0].hour[i].condition.text}`);
-
-            timeForCast.appendChild(texttimeForCast);
-            tempForCast.appendChild(texttempForCast);
-            nameForCast.appendChild(textnameForCast);
-            
-            mainForCastDiv_Hour.appendChild(timeForCast);
-            mainForCastDiv_Hour.appendChild(tempForCast);
-            mainForCastDiv_Hour.appendChild(imgForCast);
-            mainForCastDiv_Hour.appendChild(nameForCast);
-
-            foreCastDiv4.appendChild(mainForCastDiv_Hour)
-        }
+        forDaysWeather_Hour(response,foreCastDiv4);
+     
         foreCastlist.appendChild(foreCastDiv4)
         newELem2.appendChild(foreCastlist);
 
     }
     mainDiv.appendChild(newELem2)
+}
+function forDaysWeather_Hour(response,foreCastDiv4) {
+
+    for (let i = 0; i < 24; i++) {
+        let mainForCastDiv_Hour = document.createElement('div')
+        mainForCastDiv_Hour.setAttribute('class', 'mainForCastDiv_Hour')
+        let timeForCast = document.createElement('p');
+        timeForCast.setAttribute('class', 'pList')
+        let texttimeForCast = document.createTextNode(`${response.data.forecast.forecastday[0].hour[i].time}`);
+        texttimeForCast = texttimeForCast.splitText(11, 0);
+        let tempForCast = document.createElement('p');
+        tempForCast.setAttribute('class', 'pList')
+        let texttempForCast = document.createTextNode(`${response.data.forecast.forecastday[0].hour[i].temp_c} C`);
+        let imgForCast = document.createElement('img');
+        imgForCast.setAttribute('class', 'imgList')
+        imgForCast.setAttribute('src', `https:${response.data.forecast.forecastday[0].hour[i].condition.icon}`);
+        let nameForCast = document.createElement('p');
+        nameForCast.setAttribute('class', 'pList')
+        let textnameForCast = document.createTextNode(`${response.data.forecast.forecastday[0].hour[i].condition.text}`);
+
+        timeForCast.appendChild(texttimeForCast);
+        tempForCast.appendChild(texttempForCast);
+        nameForCast.appendChild(textnameForCast);
+        
+        mainForCastDiv_Hour.appendChild(timeForCast);
+        mainForCastDiv_Hour.appendChild(tempForCast);
+        mainForCastDiv_Hour.appendChild(imgForCast);
+        mainForCastDiv_Hour.appendChild(nameForCast);
+
+        foreCastDiv4.appendChild(mainForCastDiv_Hour)
+    }
+    
+}
+function heightof(i) {
+    let abc = document.childNodes[1].childNodes[2].childNodes[1].childNodes[7].childNodes[i];
+    if (abc.getAttribute('class') === "ForDays") {
+        abc.setAttribute('class','takeHeight')
+    }else if (abc.getAttribute('class') ==="takeHeight"){
+        abc.setAttribute('class','ForDays')
+    }
+    console.log(document.childNodes[1].childNodes[2].childNodes[1].childNodes[7].childNodes[i]);
+
 }
